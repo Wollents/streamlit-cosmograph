@@ -1,0 +1,60 @@
+body {
+    margin: 0px;
+  }
+  
+  #root {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .wrapper {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    background: var(--cosmograph-search-input-background);
+  }
+  
+  .cosmographStyle {
+    overflow: auto;
+    height: 100%;
+    display: flex;
+  }
+  
+  .timelineStyle {
+    height: 80px;
+    padding: 0.5rem;
+  }
+  
+  .searchStyle {
+    margin: 0 1rem;
+  }
+  
+  .sidebarStyle {
+    position: absolute;
+    bottom: 70px;
+    width: 350px;
+    display: flex;
+    flex-flow: column;
+    margin: 5px;
+  }
+  
+  .histogramWrapper {
+    margin-left: 5px;
+    border-radius: 5px;
+    background: rgb(34 34 34 / 70%);
+    padding: 3px;
+  }
+  
+  .histogramStyle {
+    height: 50px;
+    background: none;
+  }
+  
+  .infoStyle {
+    margin: 8px;
+    color: white;
+    font-size: 14px;
+    white-space: pre-line;
+  }
+  
