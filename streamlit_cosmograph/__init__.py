@@ -1,68 +1,22 @@
+import os
+
+
 import streamlit.components.v1 as components
 import streamlit as st
-import random
-from utils import load_data_from_upload, load_test_data
-_cosmo_graph = components.declare_component("cosmo_graph", url="http://localhost:3000")
-cache_label = None
 
 
-def get_random(min_val, max_val):
-    return float(random.uniform(0, 1) * (max_val - min_val) + min_val)
+from config import configure_and_load
 
+_RELEASE = False
+if _RELEASE:
+    parent_dir = os.path.dirname(os.path.abspath(__file__))
+    build_dir = os.path.join(parent_dir, "frontend/build")
+    _cosmo_graph = components.declare_component(
+        "cosmo_graph",
+        path=build_dir)
+else:
 
-def configure_sidebar() -> None:
-    with st.sidebar:
-        st.header("Information")
-        st.info(
-            "This is a simple graph visualization tool by cosmograph and streamlit. \n\n :bulb: It empowers you to smoothly visualize :red[10 Thousands-scale] nodes and edges in graph data.")
-        st.header("Configuration")
-        basic_configs = basic_expander()
-        layout = layout_expander()
-        selected_dataset, nodes, links, graph_config = choose_dataset(layout)
-        basic_configs['layout'] = layout
-        graph_config.update(basic_configs) # the system will overwrite the graph configs
-        return selected_dataset, nodes, links, graph_config
-
-def basic_expander():
-    with st.expander("Basic Settings", expanded=True):
-        node_size = st.slider("Select node size", 0, 100, 10)
-        link_size = st.number_input("Input links size", 0.1)
-        bg_color = st.color_picker("Select background color", "#000000")
-        basic = {"backgroundColor": bg_color, "pointSize": node_size, "linkWidth": link_size}
-        return basic
-
-
-def choose_dataset(layout="random"):
-    with st.expander("Choose/upload Dataset To Visualize"):
-        dataset_options = ("test_data")
-        selected_dataset = st.selectbox(
-            label="Choose your dataset:",
-            options=dataset_options,
-        )
-        upload_file = st.file_uploader(label="Upload your own dataset", type=["mat", "json"])
-        nodes, links = None, None
-        if upload_file is not None:
-            selected_dataset, nodes, links, graph_configs = load_data_from_upload(upload_file, layout)
-        else:
-            selected_dataset, nodes, links, graph_configs = load_test_data()
-
-        return selected_dataset, nodes, links, graph_configs
-
-def layout_expander():
-    with st.expander("Choose a Layout"):
-        layout_options = ("Random", "Circular", "ByLabel")
-        selected_layout = st.selectbox(
-            label="Choose your layout:",
-            options=layout_options,
-        )
-        return selected_layout
-
-
-st.set_page_config(
-    page_title="streamlit cosmograph",
-    page_icon="",
-    layout="wide",
-)
+    _cosmo_graph = components.declare_component("cosmo_graph", url="http://localhost:3001")
 
 
 def cosmo_graph(nodes, links, configs, key=None):
@@ -83,29 +37,37 @@ def cosmo_graph(nodes, links, configs, key=None):
     return components_value
 
 
-selected_dataset, nodes, links, configs = configure_sidebar()
-st.markdown("# :rainbow[Streamlit Cosmograph]")
-st.header(f":blue[{selected_dataset}] Graph :sparkles: (Node: {len(nodes)}, Links: {len(links)}) ", divider="grey")
-with st.container(border=True):
-    return_value: map = cosmo_graph(nodes, links, configs, key=selected_dataset)
+if not _RELEASE:
+    
+    st.set_page_config(
+        page_title="streamlit cosmograph",
+        page_icon="",
+        layout="wide",
+    )
+    selected_dataset, nodes, links, configs = configure_and_load()
+    
+    st.markdown("# :rainbow[Streamlit Cosmograph]")
+    st.header(f":blue[{selected_dataset}] Graph :sparkles: (Node: {len(nodes)}, Links: {len(links)}) ", divider="grey")
+    with st.container(border=True):
+        return_value: map = cosmo_graph(nodes, links, configs, key=selected_dataset)
 
-if return_value is not None and len(return_value) > 0:
-    target_node_id = return_value["node"]
-    neighbor_id = return_value["neighbor"]
-    target_node_label = nodes[target_node_id].label
-    neighbor_label = []
-    for n_id in neighbor_id:
-        neighbor_label.append(nodes[n_id].label)
+    if return_value is not None and len(return_value) > 0:
+        target_node_id = return_value["node"]
+        neighbor_id = return_value["neighbor"]
+        target_node_label = nodes[target_node_id].label
+        neighbor_label = []
+        for n_id in neighbor_id:
+            neighbor_label.append(nodes[n_id].label)
 
-    st.markdown(f'''
-                **Selected Node id**: {target_node_id} 
+        st.markdown(f'''
+                    **Selected Node id**: {target_node_id} 
 
-                **Selected Node label**: {target_node_label} 
-                
-                **Neighbor Node id**: {neighbor_id} 
+                    **Selected Node label**: {target_node_label} 
+                    
+                    **Neighbor Node id**: {neighbor_id} 
 
-                **Neighbor Node label**: {neighbor_label}
+                    **Neighbor Node label**: {neighbor_label}
 
-                ''')
-else:
-    st.markdown("No node selected")
+                    ''')
+    else:
+        st.markdown("No node selected")
