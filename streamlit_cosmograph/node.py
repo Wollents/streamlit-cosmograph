@@ -1,5 +1,5 @@
 class Node:
-    def __init__(self, id, colors="#FDD2BS", label=None, x=None, y=None):
+    def __init__(self, id, colors="#FDD2BS", label=None, x=None, y=None, **kwargs):
         self.id = id
         if label is None:
             self.label = str(id)
@@ -8,6 +8,7 @@ class Node:
         self.x = x
         self.y = y
         self.colors = colors
+        self.__dict__.update(**kwargs)
 
     def to_dict(self):
         return self.__dict__

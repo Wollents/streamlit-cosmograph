@@ -35,9 +35,9 @@ const config: GraphConfigInterface = {
     pointPosition: [number, number] | undefined,
     event: MouseEvent
   ) => {
-    if (index !== undefined) {
-      click = true;
-      console.log('clicking  ', click);
+    click = true;
+    console.log('clicking  ', click);
+    if (index !== undefined) {  
       graph.selectPointByIndex(index);
       var neighbor = graph.getAdjacentIndices(index) || [];
       const return_dict = {"node": index, "neighbor": neighbor};
@@ -47,7 +47,10 @@ const config: GraphConfigInterface = {
       graph.zoomToPointByIndex(index);
       graph.fitViewByPointIndices(neighbor)
     } else {
+      console.log("unselecting index")
+      Streamlit.setComponentValue({});
       graph.unselectPoints();
+      
     }
     console.log('Clicked point index: ', index);
   },
@@ -131,39 +134,44 @@ function onRender(event: Event): void {
   const data = (event as CustomEvent<RenderData>).detail
   console.log("receving data", data)
 
-  // 从Streamlit接收数据
-  const nodes = data.args["nodes"]; // 假设Python端传递了points参数
-  const links_ = data.args["links"];   // 假设Python端传递了links参数
+  // params from streamlit
+  const nodes = data.args["nodes"];
+  const links_ = data.args["links"];   
   const colors = data.args["colors"];
-  const configs = data.args["configs"];
-  const layout = configs["layout"] || "Random"
-  console.log("receiving configs", configs)
+  const rec_configs = data.args["configs"];
+  Object.assign(config, rec_configs);
+
+ 
+  const layout = rec_configs["layout"] || "Random"
   if(click){
-    console.log("click is", click);
+    
     if(click){
       click = false;
       console.log("chaning click to ", click)
       return;
     }
   }
-  // 更新图形数据
+  // update graph
+  graph.setConfig(config);
   graph.setPointPositions(nodes);
   graph.setLinks(links_);
   graph.setPointColors(colors);
   graph.render();
   pause();
-  console.log("layout is", layout)
   if(layout == "Random"){
     start();
   }
-  fitView();
-  Streamlit.setComponentValue(undefined);
-  
-  Streamlit.setFrameHeight(600)
+  // just make sure to fitView
+  setTimeout(() => {
+    graph.fitView(); 
+  }, 800);
+  Streamlit.setFrameHeight(600);
 }
+
 // first RENDER_EVENT until we call this function.
 Streamlit.setComponentReady()
 Streamlit.events.addEventListener(Streamlit.RENDER_EVENT, onRender)
+
 // Tell Streamlit we're ready to start receiving data. We won't get our
 
 // Finally, tell Streamlit to update our initial height. We omit the
