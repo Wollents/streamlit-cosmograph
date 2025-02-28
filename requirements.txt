@@ -1,2 +1,1 @@
 scipy == 1.15.2 # just for app.py
-streamlit-cosmograph == 0.1.0

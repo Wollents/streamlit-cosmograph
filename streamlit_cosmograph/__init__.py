@@ -18,7 +18,7 @@ from streamlit_cosmograph.utils import get_node_position_colors
 import streamlit.components.v1 as components
 
 
-_RELEASE = False
+_RELEASE = True
 if _RELEASE:
     parent_dir = os.path.dirname(os.path.abspath(__file__))
     build_dir = os.path.join(parent_dir, "frontend/build")
