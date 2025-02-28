@@ -1,7 +1,8 @@
 __pycache__/
-.python-version
 node_modules/
 .vscode/
 build/
 *.egg-info/
 dist/
+.python-version
+.devcontainer/

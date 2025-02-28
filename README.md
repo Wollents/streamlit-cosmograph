@@ -20,7 +20,7 @@ With Streamlit-Cosmograph, you can easily visualize your graogh data with a grap
 `pip install streamlit-cosmograph`
 
 ## Example App
-Check out the LIVE [Example App](https://github.com/streamlit/streamlit-cosmograph/blob/main/example_app.py)!!
+Check out the LIVE [Example App](https://test-cosmograph.streamlit.app/)!!
 
 ## Basic Usage
 ```python
