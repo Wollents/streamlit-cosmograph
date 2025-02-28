@@ -9,6 +9,7 @@ const div_actions = document.body.appendChild(document.createElement("div"))
 div_actions.className = 'actions';
 let graph: Graph;
 let click = false;
+let frameHeight = 600;
 const config: GraphConfigInterface = {
   spaceSize: 4096,
   backgroundColor: '#151515',
@@ -99,6 +100,7 @@ function onRender(event: Event): void {
   const colors = data.args["colors"];
   const rec_configs = data.args["configs"];
   const simulation = rec_configs["simulation"];
+  frameHeight = rec_configs["frameHeight"] || 600;
   Object.assign(config, rec_configs);
 
   if(click){
@@ -128,7 +130,7 @@ function onRender(event: Event): void {
     graph.fitView(250, 0.1); 
   }, 800);
   
-  Streamlit.setFrameHeight(600);
+  Streamlit.setFrameHeight(frameHeight);
 }
 
 // first RENDER_EVENT until we call this function.
@@ -139,6 +141,6 @@ Streamlit.setComponentReady()
 
 // Finally, tell Streamlit to update our initial height. We omit the
 // `height` parameter here to have it default to our scrollHeight.
-Streamlit.setFrameHeight(600)
+Streamlit.setFrameHeight(frameHeight)
 
 

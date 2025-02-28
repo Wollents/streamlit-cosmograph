@@ -36,7 +36,8 @@ def basic_expander():
         node_size = st.slider("Select node size", 0, 100, 10)
         link_size = st.number_input("Input links size", 0.1)
         bg_color = st.color_picker("Select background color", "#000000")
-        basic = {"backgroundColor": bg_color, "pointSize": node_size, "linkWidth": link_size}
+        frame_height = st.slider("Select frame height", 0, 1000, 600)
+        basic = {"backgroundColor": bg_color, "pointSize": node_size, "linkWidth": link_size, "frameHeight": frame_height}
         return basic
 
 
