@@ -14,7 +14,7 @@ import streamlit as st
 
 
 from streamlit_cosmograph import cosmo_graph
-from streamlit_cosmograph.config import configure_and_load
+from config import configure_and_load
 
 st.set_page_config(
     page_title="streamlit cosmograph",
