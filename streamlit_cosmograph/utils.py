@@ -277,7 +277,7 @@ def get_node_position_colors(nodes: list[Node], config: dict):
     node_position = []
     colors = []
     for node in nodes:
-        node_position.append(node.x)
-        node_position.append(node.y)
+        node_position.append(node.x if node.x is not None else random.uniform(0,100))
+        node_position.append(node.y if node.y is not None else random.uniform(0,100))
         colors.extend(node.colors)
     return node_position, colors

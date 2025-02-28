@@ -113,14 +113,14 @@ function onRender(event: Event): void {
   }
 
   // update graph
-  graph.setConfig(config);
   graph.setPointPositions(nodes);
   graph.setLinks(links_);
   graph.setPointColors(colors);
   graph.render();
+  graph.setConfig(config);
 
   pause();
-  if(simulation){
+  if(simulation!==false){
     console.log("starting simulation")
     
     start();
@@ -129,7 +129,6 @@ function onRender(event: Event): void {
   setTimeout(() => {
     graph.fitView(250, 0.1); 
   }, 800);
-  
   Streamlit.setFrameHeight(frameHeight);
 }
 
