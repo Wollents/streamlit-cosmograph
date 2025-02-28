@@ -1,3 +1,16 @@
+#!/usr/bin/env python3
+# -*- encoding: utf-8 -*-
+'''
+@File: __init__.py
+@Author: Wang Yang
+@Email: yangwang0222@163.com
+@Date:   2025/02/28 15:38 
+@Last Modified by: yangwang0222@163.com
+@Description : This file is used to prepare the component from the frontend.
+               It is important to know that the function _cosmo_graph() is the main function of the component.
+'''
+
+
 import os
 
 from streamlit_cosmograph.utils import get_node_position_colors
@@ -18,6 +31,19 @@ else:
 
 
 def cosmo_graph(nodes, links, configs, key=None):
+    """
+    Initailize the cosmograph component from the frontend.
+
+    Arguments:
+        nodes -- List[streamlit_cosmograph.node.Node]: List of nodes.
+        links -- List[streamlit_cosmograph.link.Link]: List of links.
+        configs -- dict:which contains the configs of the cosmograph component.
+
+        key -- str: which is the identifier of declaring the component.
+
+    Returns:
+        value return from the frontend.
+    """    
     node_position = []
     colors = []
     links_list = []

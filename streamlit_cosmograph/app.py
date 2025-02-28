@@ -1,3 +1,15 @@
+#!/usr/bin/env python3
+# -*- encoding: utf-8 -*-
+'''
+@File: app.py
+@Author: Wang Yang
+@Email: yangwang0222@163.com
+@Date:   2025/02/28 15:42 
+@Last Modified by: yangwang0222@163.com
+@Description : This is the basic app which is used to show how the streamlit-cosmograph works.
+'''
+
+
 import streamlit as st
 
 

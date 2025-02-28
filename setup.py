@@ -1,3 +1,15 @@
+#!/usr/bin/env python3
+# -*- encoding: utf-8 -*-
+'''
+@File: setup.py
+@Author: Wang Yang
+@Email: yangwang0222@163.com
+@Date:   2025/02/28 15:37 
+@Last Modified by: yangwang0222@163.com
+@Description : this file is used to setup the package.
+'''
+
+
 import setuptools
 from os import path
 
