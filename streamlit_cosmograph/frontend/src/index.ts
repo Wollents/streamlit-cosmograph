@@ -1,5 +1,4 @@
 import './style.css';
-import { pointPositions, links } from "./data-gen";
 import { Graph, GraphConfigInterface } from '@cosmograph/cosmos';
 import { Streamlit, RenderData } from "streamlit-component-lib"
 
@@ -57,19 +56,17 @@ const config: GraphConfigInterface = {
 };
 
 graph = new Graph(div, config);
-// const canvas = div.querySelector('canvas');
-graph.setPointPositions(pointPositions);
-graph.setLinks(links);
-
-graph.zoom(0.8);
-graph.render();
 
 /* ~ Demo Actions ~ */
 // Start / Pause
 let isPaused = false;
 const pauseButton = div_actions.appendChild(document.createElement("button"))
 pauseButton.textContent = 'Pause';
+pauseButton.addEventListener('click', togglePause);
 
+const fitviewButton = div_actions.appendChild(document.createElement("button"))
+fitviewButton.textContent = 'fitView';
+fitviewButton.addEventListener('click', fitView);
 function pause() {
   isPaused = true;
   pauseButton.textContent = 'Start';
@@ -87,48 +84,10 @@ function togglePause() {
   else pause();
 }
 
-pauseButton.addEventListener('click', togglePause);
-
-// Zoom and Select
-function getRandomPointIndex() {
-  return Math.floor((Math.random() * pointPositions.length) / 2);
-}
-
-function getRandomInRange([min, max]: [number, number]): number {
-  return Math.random() * (max - min) + min;
-}
-
 function fitView() {
   graph.fitView();
 }
 
-function zoomIn() {
-  const pointIndex = getRandomPointIndex();
-  graph.zoomToPointByIndex(pointIndex);
-  graph.selectPointByIndex(pointIndex);
-  pause();
-}
-
-function selectPoint() {
-  const pointIndex = getRandomPointIndex();
-  graph.selectPointByIndex(pointIndex);
-  graph.fitView();
-  pause();
-}
-
-function selectPointsInArea() {
-  const w = canvas.clientWidth;
-  const h = canvas.clientHeight;
-  const left = getRandomInRange([w / 4, w / 2]);
-  const right = getRandomInRange([left, (w * 3) / 4]);
-  const top = getRandomInRange([h / 4, h / 2]);
-  const bottom = getRandomInRange([top, (h * 3) / 4]);
-  pause();
-  graph.selectPointsInRange([
-    [left, top],
-    [right, bottom],
-  ]);
-}
 function onRender(event: Event): void {
   // Get the RenderData from the event
   const data = (event as CustomEvent<RenderData>).detail
@@ -139,10 +98,9 @@ function onRender(event: Event): void {
   const links_ = data.args["links"];   
   const colors = data.args["colors"];
   const rec_configs = data.args["configs"];
+  const simulation = rec_configs["simulation"];
   Object.assign(config, rec_configs);
 
- 
-  const layout = rec_configs["layout"] || "Random"
   if(click){
     
     if(click){
@@ -151,34 +109,36 @@ function onRender(event: Event): void {
       return;
     }
   }
+
   // update graph
   graph.setConfig(config);
   graph.setPointPositions(nodes);
   graph.setLinks(links_);
   graph.setPointColors(colors);
   graph.render();
+
   pause();
-  if(layout == "Random"){
+  if(simulation){
+    console.log("starting simulation")
+    
     start();
   }
   // just make sure to fitView
   setTimeout(() => {
-    graph.fitView(); 
+    graph.fitView(250, 0.1); 
   }, 800);
+  
   Streamlit.setFrameHeight(600);
 }
 
 // first RENDER_EVENT until we call this function.
-Streamlit.setComponentReady()
 Streamlit.events.addEventListener(Streamlit.RENDER_EVENT, onRender)
 
 // Tell Streamlit we're ready to start receiving data. We won't get our
+Streamlit.setComponentReady()
 
 // Finally, tell Streamlit to update our initial height. We omit the
 // `height` parameter here to have it default to our scrollHeight.
 Streamlit.setFrameHeight(600)
-const fitviewButton = div_actions.appendChild(document.createElement("button"))
-fitviewButton.textContent = 'fitView';
-fitviewButton.addEventListener('click', fitView);
 
 

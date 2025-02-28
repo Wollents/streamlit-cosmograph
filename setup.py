@@ -10,8 +10,8 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setuptools.setup(
     license="MIT",
-    name="streamlit-cosmograph",
-    version="0.1.0",
+    name="streamlit_cosmograph",
+    version="1.0.3",
     author="Wollents(Wang Yang)",
     author_email="yangwang0222@163.com",
     description="Cosmograph for Streamlit.",
@@ -25,5 +25,5 @@ setuptools.setup(
     install_requires=[
         "streamlit >= 0.63",
         "scipy >= 1.4.1"
-    ],
+    ]
 )
