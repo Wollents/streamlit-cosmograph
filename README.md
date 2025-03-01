@@ -1,7 +1,7 @@
 <h1 align="center"> <p>Streamlit Cosmograph</p></h1>
 <h3 align="center">
 <p>Streamlit wrapper of <a herf="https://cosmograph.app/" >Cosmographv2.0.</a> </p>
-  <p>An Efficient Graph Visualiation Tool Tntegrated with Streamlit for Large Scale(10<sup>5</sup>~10<sup>6</sup>) Data</p>
+  <p>An Efficient Graph Visualiation Tool Integrated with Streamlit for Large Scale(10<sup>5</sup>~10<sup>6</sup>) Data</p>
 </h3>
 
 ## Introduction
