@@ -86,9 +86,10 @@ def __generate_random_mat(n_nodes, label):
     nodes = []
     unique_label = list(set(label))
     color_map = get_color_map(unique_label)
+    random.seed(0)
     for i in range(n_nodes):
-        x = np.random.uniform(0, 1)
-        y = np.random.uniform(0, 1)
+        x = random.uniform(0, 1)
+        y = random.uniform(0, 1)
         if label is not None:
             nodes.append(Node(i, x=x * BASE_POS, y=y * BASE_POS, label=label[i], colors=color_map.get(label[i])))
         else:
@@ -117,6 +118,7 @@ def generate_circular_layout(nodes: list[Node]):
 def generate_bylabel_layout(nodes: list[Node]):
 
     unique_labels = list(set([node.label for node in nodes if node.label is not None]))
+    
     num_classes = len(unique_labels)
     if num_classes < 2:
         return None
@@ -125,6 +127,7 @@ def generate_bylabel_layout(nodes: list[Node]):
     nodes_posisitions = []
     colors = []
     color_map = get_color_map(unique_labels)
+    random.seed(3)
 
     for node in nodes:
         label = node.label
@@ -139,8 +142,8 @@ def generate_bylabel_layout(nodes: list[Node]):
         x_min = label_index * region_width
         x_max = (label_index + 1) * region_width
 
-        x = np.random.uniform(x_min, x_max)
-        y = np.random.uniform(0, 1)
+        x = random.uniform(x_min, x_max)
+        y = random.uniform(0, 1)
 
         node.x = x * BASE_POS * region_width
         node.y = y * BASE_POS
@@ -155,10 +158,10 @@ def generate_bylabel_layout(nodes: list[Node]):
 def generate_random_layout(nodes: list[Node]):
     nodes_posisitions = []
     colors = []
-
+    random.seed(1)
     for node in nodes:
-        node.x = np.random.uniform(0, 1) * BASE_POS
-        node.y = np.random.uniform(0, 1) * BASE_POS
+        node.x = random.uniform(0, 1) * BASE_POS
+        node.y = random.uniform(0, 1) * BASE_POS
         colors.extend(node.colors)
         nodes_posisitions.extend([node.x, node.y])
 
@@ -191,6 +194,7 @@ def load_json_data(file: str | UploadedFile):
     nodes = []
     links = []
     name = None
+    random.seed(0)
     if isinstance(file, UploadedFile):
         file = file.read()
         test_file = json.loads(file)
@@ -276,6 +280,7 @@ def get_node_position_colors(nodes: list[Node], config: dict):
 
     node_position = []
     colors = []
+    random.seed(0)
     for node in nodes:
         node_position.append(node.x if node.x is not None else random.uniform(0,100))
         node_position.append(node.y if node.y is not None else random.uniform(0,100))
