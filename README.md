@@ -32,7 +32,7 @@ from streamlit_cosmograph.link import Link
 nodes = [Node(id=i, label=f"Node {i}") for i in range(1, 1001)]
 links = [Link(source=i, target=i+1) for i in range(1, 1000)]
 configs = {"linkWidth":1, "linkColor":"#696969", "pointSize": 3, "simulation":False}
-return_value = cosmo_graph(nodes, links, configs)
+return_value = cosmo_graph(nodes, links, configs, key="test")
 ```
 And you will find the graph below:
 <p style="text-align:center">
