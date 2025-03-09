@@ -47,8 +47,7 @@ const config: GraphConfigInterface = {
       graph.zoomToPointByIndex(index);
       graph.fitViewByPointIndices(neighbor)
     } else {
-      console.log("unselecting index")
-      Streamlit.setComponentValue({});
+      console.log("unselecting index");
       graph.unselectPoints();
       
     }
@@ -102,15 +101,6 @@ function onRender(event: Event): void {
   const simulation = rec_configs["simulation"];
   frameHeight = rec_configs["frameHeight"] || 600;
   Object.assign(config, rec_configs);
-
-  if(click){
-    
-    if(click){
-      click = false;
-      console.log("chaning click to ", click)
-      return;
-    }
-  }
 
   // update graph
   graph.setPointPositions(nodes);
